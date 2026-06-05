@@ -1,17 +1,17 @@
 import app from './app.js';
 import { env } from './config/env.js';
-import { pool } from './config/db.js';
+import { pool, db } from './config/db.js';
 import { logger } from './utils/logger.js';
+import { sql } from 'drizzle-orm';
 
 let server;
 
 // Establish database pool client check and start server
 const startServer = async () => {
   try {
-    // Attempt database check
-    const client = await pool.connect();
-    logger.info('✅ PostgreSQL database connection checked successfully');
-    client.release();
+    // Use a lightweight query to verify connectivity — works with Neon's pgbouncer pooler
+    await db.execute(sql`SELECT 1`);
+    logger.info('✅ PostgreSQL database connection verified successfully');
 
     // Start HTTP Server listener
     server = app.listen(env.PORT, () => {

@@ -5,12 +5,22 @@ import * as schema from '../db/schema.js';
 
 const { Pool } = pg;
 
+// Build SSL config — required for cloud providers like Neon, Supabase, Railway, etc.
+const isCloudDb =
+  env.DATABASE_URL.includes('neon.tech') ||
+  env.DATABASE_URL.includes('supabase') ||
+  env.DATABASE_URL.includes('railway') ||
+  env.NODE_ENV === 'production';
+
+const sslConfig = isCloudDb ? { rejectUnauthorized: false } : false;
+
 // Connection Pool Configuration
 export const pool = new Pool({
   connectionString: env.DATABASE_URL,
-  max: env.NODE_ENV === 'production' ? 20 : 5, // Connection pool sizing
+  ssl: sslConfig,
+  max: env.NODE_ENV === 'production' ? 20 : 5,
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  connectionTimeoutMillis: 5000,
 });
 
 pool.on('error', (err) => {
