@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://full-stack-qmlj.vercel.app/';
+export const API_BASE_URL = 'https://backend-xi-beige-77.vercel.app/';
 
 export const FILTERS = {
   ALL: 'all',
