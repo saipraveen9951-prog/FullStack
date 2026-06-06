@@ -35,7 +35,6 @@ export default function App() {
     filteredTodos,
     loading,
     actionLoading,
-    fallbackMode,
     filter,
     setFilter,
     searchQuery,
@@ -103,7 +102,6 @@ export default function App() {
         {/* Header Section */}
         <Header
           stats={stats}
-          fallbackMode={fallbackMode}
           onRefresh={refreshTodos}
           refreshLoading={loading}
         />

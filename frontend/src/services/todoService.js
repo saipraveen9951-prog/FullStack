@@ -21,9 +21,16 @@ const handleApiError = (error, operationName) => {
     };
   }
   
+  const responseData = error.response?.data;
+  let customMessage = responseData?.message;
+  if (responseData?.errors && Array.isArray(responseData.errors) && responseData.errors.length > 0) {
+    const detailList = responseData.errors.map(err => `${err.field ? err.field + ': ' : ''}${err.message}`).join(', ');
+    customMessage = `${customMessage}: ${detailList}`;
+  }
+
   throw {
     isNetworkError: false,
-    message: error.response?.data?.message || `Failed to ${operationName.toLowerCase()}.`,
+    message: customMessage || `Failed to ${operationName.toLowerCase()}.`,
     originalError: error,
     status: error.response?.status
   };
@@ -31,13 +38,13 @@ const handleApiError = (error, operationName) => {
 
 export const todoService = {
   /**
-   * Fetch all todos
+   * Fetch all todos (fetches up to 100 items to bypass default backend limit of 10)
    * GET /api/todos
    */
   async getAll() {
     try {
-      const response = await apiClient.get('');
-      return response.data;
+      const response = await apiClient.get('', { params: { limit: 100 } });
+      return response.data.data;
     } catch (error) {
       return handleApiError(error, 'fetch todos');
     }
@@ -51,7 +58,7 @@ export const todoService = {
     try {
       // Typically backend expects a JSON payload. We set default completed to false.
       const response = await apiClient.post('', { title, completed: false });
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return handleApiError(error, 'create todo');
     }
@@ -65,7 +72,7 @@ export const todoService = {
     try {
       // updates is an object containing fields to change e.g., { title, completed }
       const response = await apiClient.put(`/${id}`, updates);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return handleApiError(error, 'update todo');
     }
@@ -78,7 +85,7 @@ export const todoService = {
   async delete(id) {
     try {
       const response = await apiClient.delete(`/${id}`);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return handleApiError(error, 'delete todo');
     }

@@ -8,8 +8,6 @@ export const FILTERS = {
 
 export const DEBOUNCE_DELAY = 300;
 
-export const LOCAL_STORAGE_KEY = 'todo_manager_fallback_tasks';
-
 export const TOAST_TYPES = {
   SUCCESS: 'success',
   ERROR: 'error',

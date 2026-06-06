@@ -1,7 +1,7 @@
 import React from 'react';
 import { CheckCircle2, ListTodo, AlertCircle, RefreshCw } from 'lucide-react';
 
-export default function Header({ stats, fallbackMode, onRefresh, refreshLoading }) {
+export default function Header({ stats, onRefresh, refreshLoading }) {
   return (
     <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 border-b border-slate-100 gap-4">
       {/* Title & Branding */}
@@ -15,17 +15,10 @@ export default function Header({ stats, fallbackMode, onRefresh, refreshLoading 
           </h1>
         </div>
         <p className="text-sm text-slate-500 mt-1">
-          {fallbackMode ? (
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-              Local Storage Mode
-            </span>
-          ) : (
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-              Connected to API
-            </span>
-          )}
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            Connected to API
+          </span>
         </p>
       </div>
 
