@@ -28,7 +28,7 @@ app.use(
 // 3. Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: env.NODE_ENV === 'production' ? 100 : 1000, // request thresholds
+  limit: 200,
   standardHeaders: 'draft-7',
   legacyHeaders: false,
   message: {
@@ -43,7 +43,7 @@ app.use(compression());
 
 // 5. Request logging
 app.use(
-  morgan(env.NODE_ENV === 'production' ? 'combined' : 'dev', {
+  morgan('dev', {
     stream: loggerStream,
   })
 );
@@ -52,12 +52,16 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 7. Health Check Route
+// 7. Root Route
+app.get('/', (req, res) => {
+  return res.status(200).json({ message: 'API is working' });
+});
+
+// 8. Health Check Route
 app.get('/health', (req, res) => {
   return res.status(200).json({
     status: 'UP',
     timestamp: new Date().toISOString(),
-    env: env.NODE_ENV,
   });
 });
 

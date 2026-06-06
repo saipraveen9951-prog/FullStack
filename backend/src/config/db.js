@@ -9,8 +9,7 @@ const { Pool } = pg;
 const isCloudDb =
   env.DATABASE_URL.includes('neon.tech') ||
   env.DATABASE_URL.includes('supabase') ||
-  env.DATABASE_URL.includes('railway') ||
-  env.NODE_ENV === 'production';
+  env.DATABASE_URL.includes('railway');
 
 const sslConfig = isCloudDb ? { rejectUnauthorized: false } : false;
 
@@ -18,7 +17,7 @@ const sslConfig = isCloudDb ? { rejectUnauthorized: false } : false;
 export const pool = new Pool({
   connectionString: env.DATABASE_URL,
   ssl: sslConfig,
-  max: env.NODE_ENV === 'production' ? 20 : 5,
+  max: 10,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 5000,
 });

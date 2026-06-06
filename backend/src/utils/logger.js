@@ -1,4 +1,3 @@
-import { env } from '../config/env.js';
 
 export const logger = {
   info: (...args) => {
@@ -11,9 +10,7 @@ export const logger = {
     console.warn(`[WARN] ${new Date().toISOString()}:`, ...args);
   },
   debug: (...args) => {
-    if (env.NODE_ENV !== 'production') {
-      console.log(`[DEBUG] ${new Date().toISOString()}:`, ...args);
-    }
+    console.log(`[DEBUG] ${new Date().toISOString()}:`, ...args);
   }
 };
 

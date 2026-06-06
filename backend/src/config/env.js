@@ -8,7 +8,6 @@ dotenv.config();
 const envSchema = z.object({
   PORT: z.coerce.number().default(5000),
   DATABASE_URL: z.string().min(1, 'DATABASE_URL is required'),
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   CORS_ORIGIN: z.string().default('*'),
 });
 

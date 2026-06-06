@@ -24,8 +24,6 @@ export const errorHandler = (err, req, res, next) => {
     success: false,
     message: error.message,
     errors: error.errors,
-    // Include stack trace only in development
-    ...(env.NODE_ENV === 'development' && { stack: error.stack }),
   };
 
   return res.status(error.statusCode).json(response);
